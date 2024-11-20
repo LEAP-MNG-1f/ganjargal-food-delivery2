@@ -8,6 +8,8 @@ import Container from "@mui/material/Container";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
 import Search from "./Search";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 export const Header = () => {
   return (
@@ -18,7 +20,10 @@ export const Header = () => {
           <div className="flex gap-2">
             <img src="/pine.png" alt="" />
             <Button variant="text">НҮҮР</Button>
-            <Button variant="text">ХООЛНЫ ЦЭС</Button>
+            <Link href={"/product"}>
+              <Button variant="text">ХООЛНЫ ЦЭС</Button>
+            </Link>
+
             <Button variant="text">ХҮРГЭЛТИЙН БҮС</Button>
           </div>
           <div className="flex justify-center items-center gap-5">
