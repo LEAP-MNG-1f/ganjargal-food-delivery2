@@ -3,23 +3,23 @@ import { MainProps } from "../cards/MainProps";
 export const MainFood = () => {
   const cards = [
     {
-      imageSrc: "/foods.png",
+      imageSrc: "/foode.png",
       title: "Өглөөний хоол",
       price: "14,800",
       oldPrice: "16,800",
     },
     {
-      imageSrc: "/foods.png",
+      imageSrc: "/foode.png",
       title: "Шуурхай хүргэлт",
       description: "Захиалга бэлтгэлийн явцыг хянах",
     },
     {
-      imageSrc: "/foods.png",
+      imageSrc: "/foode.png",
       title: "Эрүүл, баталгаат орц",
       description: "Захиалга бэлтгэлийн явцыг хянах",
     },
     {
-      imageSrc: "/foods.png",
+      imageSrc: "/foode.png",
       title: "Хоолны өргөн сонголт",
       description: "Захиалга бэлтгэлийн явцыг хянах",
     },

@@ -5,7 +5,7 @@ import Container from "@mui/material/Container";
 import { SaleCard } from "./SaleCard";
 import { MainFood } from "./MainFood";
 import { Salat } from "./Salat";
-import { Amttan } from "./Amttan";
+import { Amttan } from "./Amttan copy";
 
 export const Card = () => {
   return (
