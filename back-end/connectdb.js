@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 const connectionString =
-  "mongodb+srv://aicode744:12345678dd@cluster0.hux8m.mongodb.net/";
+  "mongodb+srv://ace12d192:wap3TZLOZeJlgLIq@cluster0.s6jvj.mongodb.net/";
 
 const connectDB = async () => {
   const client = new MongoClient(connectionString);
@@ -16,3 +16,4 @@ const connectDB = async () => {
 };
 
 export default connectDB;
+// "mongodb+srv://aicode744:12345678dd@cluster0.hux8m.mongodb.net/";

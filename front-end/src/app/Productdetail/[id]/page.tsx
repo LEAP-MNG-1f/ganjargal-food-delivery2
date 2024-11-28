@@ -1,56 +1,195 @@
-const products = [
-  {
-    name: "Өглөөний хоол",
-    price: "24,800₮",
-    oldPrice: "26,800₮",
-    discount: "20%",
-    image: "breakfast1.jpg",
-  },
-  {
-    name: "Зайрмаг",
-    price: "4,800₮",
-    oldPrice: "6,800₮",
-    discount: "20%",
-    image: "icecream.jpg",
-  },
-  { name: "Торт", price: "54,800₮", image: "cake.jpg" },
-  { name: "Oreo shake", price: "14,800₮", image: "oreo.jpg" },
-  { name: "Chocolate", price: "14,800₮", image: "chocolate.jpg" },
-  { name: "Yoghurt", price: "14,800₮", image: "yoghurt.jpg" },
-];
-export const page = () => {
+"use client";
+import {
+  Typography,
+  Button,
+  Modal,
+  Box,
+  IconButton,
+  TextField,
+} from "@mui/material";
+import { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+
+type Food = {
+  id?: number;
+  imageSrc?: string;
+  title?: string;
+  price?: string;
+  description?: string;
+  quantity: number;
+};
+
+type CardProps = {
+  id?: number;
+  imageSrc?: string;
+  title?: string;
+  price?: string;
+  description?: string;
+};
+
+export const FoodCard = ({
+  id,
+  imageSrc,
+  title,
+  price,
+  description,
+}: CardProps) => {
+  const [open, setOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [cart, setCart] = useState<Food[]>([]);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleQuantityChange = (value: number) => {
+    if (value > 0) setQuantity(value);
+  };
+
+  const handleAddToCart = () => {
+    const newItem: Food = {
+      id,
+      imageSrc,
+      title,
+      price,
+      description,
+      quantity,
+    };
+
+    setCart((prev) => {
+      const existingItem = prev.find((item) => item.id === id);
+      if (existingItem) {
+        return prev.map((item) =>
+          item.id === id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+      }
+      return [...prev, newItem];
+    });
+    handleClose();
+  };
+
+  const modalStyle = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "90%",
+    maxWidth: 700,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    borderRadius: "16px",
+    p: 3,
+  };
+
   return (
-    <div>
-      {products.map((product, index) => (
-        <div
-          key={index}
-          className="bg-white rounded-lg shadow-md overflow-hidden"
-        >
-          <div className="relative">
-            <img
-              src={product.image}
-              alt=""
-              className="w-full h-40 object-cover"
-            />
-            {product.discount && (
-              <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                {product.discount}
-              </span>
-            )}
-          </div>
-          <div className="p-4 text-center">
-            <h3 className="text-lg font-bold">{product.name}</h3>
-            <p className="text-green-600 font-semibold">
-              {product.price}{" "}
-              {product.oldPrice && (
-                <span className="line-through text-gray-400 text-sm ml-2">
-                  {product.oldPrice}
-                </span>
-              )}
-            </p>
+    <div className="w-[270px] h-[340px] flex flex-col rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+      {/* Карт хэсэг */}
+      <div onClick={handleOpen}>
+        <div className="h-[180px] overflow-hidden rounded-t-xl">
+          <img
+            src={imageSrc || "https://via.placeholder.com/300"}
+            alt={title || "Food Image"}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="p-4">
+          <Typography variant="h6" className="font-semibold">
+            {title || "Хоолны нэр"}
+          </Typography>
+          <Typography
+            variant="body2"
+            className="text-gray-600 truncate"
+            title={description || ""}
+          >
+            {description || "Энэ хоолны дэлгэрэнгүй мэдээлэл алга."}
+          </Typography>
+          <div className="flex justify-between items-center mt-2">
+            <Typography variant="body1" className="text-green-600 font-bold">
+              {price || "0₮"}
+            </Typography>
           </div>
         </div>
-      ))}
+      </div>
+
+      {/* Modal хэсэг */}
+      <Modal open={open} onClose={handleClose}>
+        <Box sx={modalStyle}>
+          <div className="flex justify-between items-center mb-4">
+            <Typography variant="h6" className="font-semibold">
+              {title || "Хоолны нэр"}
+            </Typography>
+            <IconButton onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </div>
+          <Box className="flex gap-4">
+            {/* Зураг */}
+            <Box
+              component="img"
+              src={imageSrc || "https://via.placeholder.com/300"}
+              alt={title}
+              sx={{
+                width: "50%",
+                borderRadius: "8px",
+                objectFit: "cover",
+              }}
+            />
+            {/* Мэдээлэл */}
+            <Box sx={{ flex: 1 }}>
+              <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }}>
+                {title || "Хоолны нэр"}
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                {description || "Энэ хоолны талаар мэдээлэл алга."}
+              </Typography>
+              <Typography
+                variant="h6"
+                color="green"
+                sx={{ fontWeight: "bold", mb: 2 }}
+              >
+                {price || "0₮"}
+              </Typography>
+              {/* Тоо ширхэг */}
+              <Box className="flex items-center gap-2 mb-4">
+                <Typography variant="body1">Тоо:</Typography>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => handleQuantityChange(quantity - 1)}
+                >
+                  -
+                </Button>
+                <TextField
+                  value={quantity}
+                  size="small"
+                  inputProps={{
+                    style: { textAlign: "center", width: "50px" },
+                  }}
+                  disabled
+                />
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => handleQuantityChange(quantity + 1)}
+                >
+                  +
+                </Button>
+              </Box>
+              {/* Захиалах товч */}
+              <Button
+                variant="contained"
+                color="success"
+                fullWidth
+                sx={{ fontWeight: "bold", textTransform: "none" }}
+                onClick={handleAddToCart}
+              >
+                Сагсанд нэмэх
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Modal>
     </div>
   );
 };

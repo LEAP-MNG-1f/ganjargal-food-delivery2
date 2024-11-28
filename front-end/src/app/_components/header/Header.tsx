@@ -27,7 +27,7 @@ export const Header = () => {
             <Link href={"/product"}>
               <Button variant="text">ХООЛНЫ ЦЭС</Button>
             </Link>
-            <Link href={"/hurgeliinbus"}>
+            <Link href={"/googlemap"}>
               <Button variant="text">ХҮРГЭЛТИЙН БҮС</Button>
             </Link>
           </div>
