@@ -1,8 +1,16 @@
 // src/components/Amttan.tsx
-
+"use client";
 import { FoodCard } from "../cards/FoodCard";
-import { Typography, Button, Modal, Box } from "@mui/material";
-
+import {
+  Typography,
+  Button,
+  Modal,
+  Box,
+  IconButton,
+  TextField,
+} from "@mui/material";
+import { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 export const Amttan = () => {
   const cards = [
     {

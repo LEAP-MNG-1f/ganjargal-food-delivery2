@@ -1,3 +1,4 @@
+"use clients";
 import { Facebook, Instagram, Twitter } from "@mui/icons-material";
 import { LogoWhite } from "../svg/LogoWhite";
 

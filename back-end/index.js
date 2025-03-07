@@ -7,6 +7,7 @@ import { v2 as cloudinary } from "cloudinary";
 import useRouter from "./router/useRouter.js";
 import foodRouter from "./router/foodRouter.js";
 import orderRouter from "./router/orderRouter.js";
+import categoryRouter from "./router/categoryRouter.js";
 mongoose.connect(
   "mongodb+srv://aicode744:12345678dd@cluster0.hux8m.mongodb.net/fooddelivery"
 );
@@ -21,9 +22,10 @@ const PORT = 8000;
 // });
 
 server.use(cors());
-server.use("/food", foodRouter);
+server.use("/api", foodRouter);
 server.use("/api", useRouter);
-server.use("/order", orderRouter);
+server.use("/api", orderRouter);
+server.use("/api", categoryRouter);
 server.listen(PORT, () => {
   console.log(`server ajillaj ehelle http://localhost:${PORT}`);
 });

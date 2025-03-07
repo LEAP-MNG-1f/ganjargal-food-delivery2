@@ -1,30 +1,32 @@
+"use client";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Link from "next/link";
 
 export default function Sags() {
   const [open, setOpen] = React.useState(false);
-  const [cartItems, setCartItems] = React.useState([
-    {
-      id: 1,
-      name: "Main Pizza",
-      price: 34900,
-      description: "Бяслаг, амтат чинжүү, улаан лооль, цэцэгт байцаа",
-      quantity: 1,
-      image: "https://via.placeholder.com/100", // Placeholder зураг
-    },
-  ]);
-
+  const [cartItems, setCartItems] = React.useState<any[]>(() => {
+    try {
+      const savedCart = localStorage.getItem("cart");
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch (error) {
+      console.error("Failed to parse cart data:", error);
+      return [];
+    }
+  });
+  React.useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
   // Сагсны нийт үнийг тооцоолох
   const calculateTotal = () => {
     return cartItems.reduce(
@@ -35,27 +37,37 @@ export default function Sags() {
 
   // Тоо ширхэг нэмэх
   const incrementQuantity = (id: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
+    setCartItems((prev) => {
+      const updatedCart = prev.map((item) =>
         item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+      );
+      localStorage.setItem("cart", JSON.stringify(updatedCart)); // Сагсны шинэ мэдээллийг localStorage-д хадгална
+      return updatedCart;
+    });
   };
 
   // Тоо ширхэг хасах
   const decrementQuantity = (id: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
+    setCartItems((prev) => {
+      const updatedCart = prev.map((item) =>
         item.id === id && item.quantity > 1
           ? { ...item, quantity: item.quantity - 1 }
           : item
-      )
-    );
+      );
+      localStorage.setItem("cart", JSON.stringify(updatedCart)); // Сагсны шинэ мэдээллийг localStorage-д хадгална
+      return updatedCart;
+    });
   };
 
   // Барааг устгах
   const removeItem = (id: number) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    setCartItems((prev) => {
+      // Өмнөх өгөгдлөөс тухайн ID-гүй бүтээгдэхүүнүүдийг хадгална
+      const updatedCart = prev.filter((item) => item.id !== id);
+      // Шинэчлэгдсэн өгөгдлийг localStorage-д хадгална
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      return updatedCart; // Шинэчлэгдсэн өгөгдлийг буцаана
+    });
   };
 
   return (
@@ -80,12 +92,12 @@ export default function Sags() {
           <List>
             {cartItems.map((item) => (
               <ListItem
-                key={item.id}
+                key={item._id}
                 sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}
               >
                 <img
                   src={item.image}
-                  alt={item.name}
+                  alt=""
                   style={{
                     width: 80,
                     height: 80,
@@ -136,14 +148,16 @@ export default function Sags() {
             </Typography>
           </Box>
           {/* Захиалах товч */}
-          <Button
-            variant="contained"
-            color="success"
-            fullWidth
-            sx={{ marginTop: 2 }}
-          >
-            Захиалах
-          </Button>
+          <Link href={"/form"}>
+            <Button
+              variant="contained"
+              color="success"
+              fullWidth
+              sx={{ marginTop: 2 }}
+            >
+              Захиалах
+            </Button>
+          </Link>
         </Box>
       </Drawer>
     </div>

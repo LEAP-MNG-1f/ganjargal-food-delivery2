@@ -5,17 +5,14 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  foods: {
-    type: Array,
-    required: true,
-  },
+
   totalPrice: {
     type: Number,
     required: true,
   },
   process: {
     type: String,
-    enum: ["active", "processing", "waiting", "delivered"],
+    enum: ["active", "process", "waiting", "delivered"],
     required: true,
   },
   createDate: {
@@ -23,9 +20,19 @@ const orderSchema = new mongoose.Schema({
     required: true,
     default: () => Date.now,
   },
-  district: {
+  phoneNumber: {
     type: String,
     required: true,
+  },
+  paymentType: {
+    type: String,
+    enum: {
+      values: ["card", "cash"],
+    },
+  },
+
+  district: {
+    type: String,
   },
   khoroo: {
     type: String,
@@ -35,11 +42,18 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  custumer: {
+  customer: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "User",
     required: true,
   },
+  foodIds: [
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Food",
+      required: true,
+    },
+  ],
 });
 const Order = mongoose.model("order", orderSchema);
 export default Order;

@@ -1,7 +1,7 @@
 "use client";
 
 import { GroupedFoodType, Food } from "@/lib/types";
-import MainProps from "../cards/MainProps";
+
 import {
   Typography,
   Button,
@@ -12,8 +12,13 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import ALLProduct from "../cards/AllProduct";
 
-export const MainFood = ({ groupFoods }: { groupFoods: GroupedFoodType }) => {
+export const Product = ({
+  groupedFoods,
+}: {
+  groupedFoods: GroupedFoodType;
+}) => {
   const [open, setOpen] = useState(false);
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -97,18 +102,13 @@ export const MainFood = ({ groupFoods }: { groupFoods: GroupedFoodType }) => {
   return (
     <div>
       <div className="flex justify-between">
-        <div className="flex gap-1">
-          <img src="/Star.png" alt="Star" />
-          <p>{groupFoods._id}</p>
-        </div>
-
-        <p>Бүгдийг харах</p>
+        <div className="flex gap-1"></div>
       </div>
 
-      <div className="flex justify-between">
-        {groupFoods.items.map((food) => (
+      <div className="flex gap-7">
+        {groupedFoods.items.map((food) => (
           <div key={food._id} onClick={() => handleOpen(food)}>
-            <MainProps food={food} />
+            <ALLProduct food={food} />
           </div>
         ))}
       </div>

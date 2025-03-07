@@ -1,10 +1,27 @@
 import mongoose from "mongoose";
 
 const foodSchema = new mongoose.Schema({
-  name: String,
-  Image: String,
-  ingeredient: String,
-  Price: Number,
+  name: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  ingeredient: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  categoryId: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Category",
+    required: true,
+  },
 });
-const Food = mongoose.model("food", foodSchema);
+const Food = mongoose.model("Food", foodSchema);
 export default Food;

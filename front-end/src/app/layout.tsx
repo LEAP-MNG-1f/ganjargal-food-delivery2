@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Header } from "./_components/header/Header";
 import { Footer } from "./_components/footer/Footer";
+import { MongoProvider } from "@/cotext/useMongo";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,9 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        {children}
-        <Footer />
+        <MongoProvider>
+          <Header />
+          {children}
+          <Footer />
+        </MongoProvider>
+        ``
       </body>
     </html>
   );
